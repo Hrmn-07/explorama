@@ -54,6 +54,7 @@ const TripCard = ({
           </ChipsDirective>
         </ChipListComponent>
       </div>
+      <article className="tripCard-pill">{price}</article>
     </Link>
   );
 };

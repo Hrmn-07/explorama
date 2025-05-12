@@ -1,3 +1,4 @@
+// minute 1:41:40
 import { Header, StatsCard, TripCard } from "components";
 import { dashboardStats, user, allTrips } from "~/constants";
 
@@ -8,7 +9,7 @@ const Dashboard = () => {
   return (
     <main className="dashboard wrapper">
       <Header
-        title={`Welcome ${user?.name ?? "Guest"}`}
+        title={`Welcome, ${user?.name ?? "Guest"}`}
         description="Track popular destination and trending activity here"
       />
       <section className="flex flex-col gap-6">
@@ -34,7 +35,7 @@ const Dashboard = () => {
         </div>
       </section>
       <section className="container">
-        <h1 className="text-xl font-semibold text-dark-100">Created Trips</h1>
+        <h1 className="text-2xl font-semibold text-dark-100">Created Trips</h1>
         <div className="trip-grid">
           {allTrips
             .slice(0, 4)
@@ -51,6 +52,7 @@ const Dashboard = () => {
             ))}
         </div>
       </section>
+      {/* @ts-ignore */}
       <TripCard />
     </main>
   );
