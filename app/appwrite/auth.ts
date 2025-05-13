@@ -90,15 +90,12 @@ export const storeUserData = async () => {
   }
 };
 
-export const getExistingUser = async () => {
+export const getExistingUser = async (id: string) => {
   try {
-    const user = await account.get();
-    if (!user) return null;
-
     const { documents, total } = await database.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
-      [Query.equal("accountId", user.$id)]
+      [Query.equal("accountId", id)]
     );
 
     return total > 0 ? documents[0] : null;
