@@ -348,7 +348,7 @@
     .container {
       @apply flex flex-col justify-between h-full overflow-auto;
       nav {
-        @apply flex flex-col gap-3.5 pt-9 pb-80;
+        @apply flex flex-col gap-3.5 pt-9 pb-70;
       }
     }
   }

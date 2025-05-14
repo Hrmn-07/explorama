@@ -15,8 +15,12 @@ const Navigation = ({ handleClick }: { handleClick?: () => void }) => {
   return (
     <section className="nav-items">
       <Link to={"/"} className="link-logo">
-        <img src="/assets/icons/logo.svg" alt="logo" className="size-[30px]" />
-        <h1>Explorama</h1>
+        <img
+          src="/assets/icons/explorama.png"
+          alt="logo"
+          className="size-[30px]"
+        />
+        <h1 className="text-gray-800">Explorama</h1>
       </Link>
       <div className="container">
         <nav>
@@ -55,7 +59,7 @@ const Navigation = ({ handleClick }: { handleClick?: () => void }) => {
         </footer>
         <button
           onClick={handleLogout}
-          className="cursor-pointer ml-auto flex items-center justify-center py-2"
+          className="cursor-pointer ml-auto flex items-center justify-center py-2 hover:scale-105 transition-transform duration-200 mr-2 pb-20"
           aria-label="Logout"
         >
           <p className="text-base px-1 text-red-600">Sign out</p>

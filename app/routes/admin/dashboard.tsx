@@ -1,6 +1,6 @@
 import { Header, StatsCard, TripCard } from "components";
 import { getUser } from "~/appwrite/auth";
-import { dashboardStats, user, allTrips } from "~/constants";
+import { dashboardStats, allTrips } from "~/constants";
 import type { Route } from "./+types/dashboard";
 
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =

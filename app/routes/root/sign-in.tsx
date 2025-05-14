@@ -20,8 +20,8 @@ const SignIn = () => {
           <header className="header">
             <Link to="/">
               <img
-                src="/assets/icons/logo.svg"
-                className="size-[30px]"
+                src="/assets/icons/explorama.png"
+                className="size-[50px]"
                 alt="logo"
               />
             </Link>
