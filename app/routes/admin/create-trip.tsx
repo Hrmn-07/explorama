@@ -8,7 +8,7 @@ import {
   LayersDirective,
   MapsComponent,
 } from "@syncfusion/ej2-react-maps";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { world_map } from "~/constants/world_map";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import { account } from "~/appwrite/client";
@@ -16,9 +16,8 @@ import { useNavigate } from "react-router";
 
 export const loader = async () => {
   // fetch countries from restcountries api
-  const response = await fetch("https://restcountries.com/v3.1/all", {
-    signal: AbortSignal.timeout(5000),
-  });
+
+  const response = await fetch("https://restcountries.com/v3.1/all", {});
 
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -122,7 +121,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
   const mapData = [
     {
       country: formData.country,
-      color: "#D70040",
+      color: "#C70039",
       coordinates:
         countries.find((c: Country) => c.name === formData.country)
           ?.coordinates || [],
@@ -228,7 +227,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                   shapeData={world_map}
                   shapePropertyPath="name"
                   shapeDataPath="country"
-                  shapeSettings={{ colorValuePath: "color", fill: "#B6D0E2" }}
+                  shapeSettings={{ colorValuePath: "color", fill: "#7393B3" }}
                 />
               </LayersDirective>
             </MapsComponent>

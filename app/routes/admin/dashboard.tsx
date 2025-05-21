@@ -1,15 +1,48 @@
+// minute 5:14:40
 import { Header, StatsCard, TripCard } from "components";
-import { getUser } from "~/appwrite/auth";
+import { getAllUsers, getUser } from "~/appwrite/auth";
 import { dashboardStats, allTrips } from "~/constants";
 import type { Route } from "./+types/dashboard";
+import {
+  getTripsByTravelStyle,
+  getUserGrowthPerDay,
+  getUsersAndTripsStats,
+} from "~/appwrite/dashboard";
+import { getAllTrips } from "~/appwrite/trips";
+import { parseTripData } from "~/lib/utils";
 
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
   dashboardStats;
 
-export const clientLoader = async () => await getUser();
+export const clientLoader = async () => {
+  const [
+    user,
+    dashboardStats,
+    trips,
+    userGrowth,
+    tripsByTravelStyle,
+    allUsers,
+  ] = await Promise.all([
+    await getUser(),
+    await getUsersAndTripsStats(),
+    await getAllTrips(4, 0),
+    await getUserGrowthPerDay(),
+    await getTripsByTravelStyle(),
+    await getAllUsers(4, 0),
+  ]);
+
+  const allTrips = trips.allTrips.map(({ $id, tripDetail, imageUrls }) => ({
+    id: $id,
+    ...parseTripData(tripDetail),
+    imageUrls: imageUrls ?? [],
+  }));
+
+  return { user, dashboardStats, allTrips };
+};
 
 const Dashboard = ({ loaderData }: Route.ComponentProps) => {
-  const user = loaderData as User | null;
+  const user = loaderData.user as User | null;
+  const { dashboardStats } = loaderData;
 
   return (
     <main className="dashboard wrapper">
@@ -21,21 +54,21 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <StatsCard
             headerTitle="Total Users"
-            total={totalUsers}
-            lastMonthCount={usersJoined.lastMonth}
-            currentMonthCount={usersJoined.currentMonth}
+            total={dashboardStats.totalUsers}
+            lastMonthCount={dashboardStats.usersJoined.lastMonth}
+            currentMonthCount={dashboardStats.usersJoined.currentMonth}
           />
           <StatsCard
             headerTitle="Total Trips"
-            total={totalTrips}
-            lastMonthCount={tripsCreated.lastMonth}
-            currentMonthCount={tripsCreated.currentMonth}
+            total={dashboardStats.totalTrips}
+            lastMonthCount={dashboardStats.tripsCreated.lastMonth}
+            currentMonthCount={dashboardStats.tripsCreated.currentMonth}
           />
           <StatsCard
             headerTitle="Current Active Users"
-            total={userRole.total}
-            lastMonthCount={userRole.lastMonth}
-            currentMonthCount={userRole.currentMonth}
+            total={dashboardStats.userRole.total}
+            lastMonthCount={dashboardStats.userRole.lastMonth}
+            currentMonthCount={dashboardStats.userRole.currentMonth}
           />
         </div>
       </section>

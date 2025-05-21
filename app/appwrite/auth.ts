@@ -63,6 +63,7 @@ export const storeUserData = async () => {
   try {
     const user = await account.get();
     if (!user) throw new Error("user not found");
+    type UserStatus = "user" | "admin";
 
     const { providerAccessToken } = (await account.getSession("current")) || {};
     const profilePicture = providerAccessToken
@@ -80,6 +81,7 @@ export const storeUserData = async () => {
         email: user.email,
         imageUrl: profilePicture || "",
         joinedAt: new Date().toISOString(),
+        status: "admin" as UserStatus,
       }
     );
 

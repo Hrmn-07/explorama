@@ -23,7 +23,7 @@ const TripCard = ({
           ? `/travel/${id}`
           : `/trips/${id}`
       }
-      className="trip-card"
+      className="trip-card hover:scale-105 transition-transform duration-200"
     >
       <img src={imageUrl} alt={name} />
       <article>

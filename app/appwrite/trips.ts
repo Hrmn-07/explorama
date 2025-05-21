@@ -1,0 +1,36 @@
+import { Query } from "appwrite";
+import { appwriteConfig, database } from "./client";
+import { error } from "console";
+
+export const getAllTrips = async (limit: number, offset: number) => {
+  const allTrips = await database.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.tripCollectionId,
+    [Query.limit(limit), Query.offset(offset), Query.orderDesc("createdAt")]
+  );
+
+  if (allTrips.total === 0) {
+    console.error("no trips available", error);
+    return { allTrips: [], total: 0 };
+  }
+
+  return {
+    allTrips: allTrips.documents,
+    total: allTrips.total,
+  };
+};
+
+export const getTripById = async (tripId: string) => {
+  const trip = await database.getDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.tripCollectionId,
+    tripId
+  );
+
+  if (!trip.$id) {
+    console.error("trip not found", error);
+    return null;
+  }
+
+  return trip;
+};
