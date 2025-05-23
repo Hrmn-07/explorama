@@ -15,7 +15,7 @@ export async function clientLoader() {
 const SignIn = () => {
   return (
     <main className="auth">
-      <section className="size-full glassmorphism px-6 flex-center">
+      <section className="size-full px-6 flex-center">
         <div className="sign-in-card">
           <header className="header">
             <Link to="/">
