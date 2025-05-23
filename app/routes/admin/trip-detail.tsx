@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "react-router";
+import { useNavigate, type LoaderFunctionArgs } from "react-router";
 import { getTripById } from "~/appwrite/trips";
 import { cn, parseTripData } from "~/lib/utils";
 import type { Route } from "./+types/trip-detail";
@@ -20,6 +20,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 const TripDetail = ({ loaderData }: Route.ComponentProps) => {
   const imageUrls = loaderData?.imageUrls || [];
   const tripData = parseTripData(loaderData?.tripDetail);
+  const navigate = useNavigate();
 
   const {
     name,
@@ -57,7 +58,7 @@ const TripDetail = ({ loaderData }: Route.ComponentProps) => {
         />
         <div className="flex items-center pr-7">
           <button
-            onClick={() => window.history.back()}
+            onClick={() => navigate("/trips")}
             className="flex items-center text-base font-medium text-gray-400 hover:text-blue-600 transition-colors whitespace-nowrap gap-2 cursor-pointer"
           >
             <span>←</span> Back to Trips
@@ -193,6 +194,14 @@ const TripDetail = ({ loaderData }: Route.ComponentProps) => {
             </div>
           </section>
         ))}
+        <div className="flex items-end pl-150">
+          <button
+            onClick={() => navigate("/trips")}
+            className="flex items-center text-base font-medium text-gray-400 hover:text-blue-600 transition-colors whitespace-nowrap gap-2 cursor-pointer"
+          >
+            <span>←</span> Back to Trips
+          </button>
+        </div>
       </section>
     </main>
   );

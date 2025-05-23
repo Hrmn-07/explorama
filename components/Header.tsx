@@ -1,6 +1,7 @@
-import { Link, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { cn } from "~/lib/utils";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
+import { useState } from "react";
 
 interface Props {
   title: string;
@@ -11,6 +12,19 @@ interface Props {
 
 const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = () => {
+    if (ctaUrl) {
+      setIsLoading(true);
+      // Navigate to url after showing loading state
+      setTimeout(() => {
+        navigate(ctaUrl);
+      }, 100);
+    }
+  };
+
   return (
     <header className="header">
       <article>
@@ -36,12 +50,24 @@ const Header = ({ title, description, ctaText, ctaUrl }: Props) => {
         </p>
       </article>
       {ctaText && ctaUrl && (
-        <Link to={ctaUrl}>
-          <ButtonComponent className="button-class !h-11 !w-full md:w-[240px]">
+        <ButtonComponent
+          className="button-class !h-11 !w-[240px] md:w-[240px]"
+          onClick={handleClick}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <img
+              src="/assets/icons/loader.svg"
+              alt="loading"
+              className="size-5 animate-spin"
+            />
+          ) : (
             <img src="/assets/icons/plus.svg" alt="create" className="size-5" />
-            <span className="p-16-semibold text-white">{ctaText}</span>
-          </ButtonComponent>
-        </Link>
+          )}
+          <span className="p-16-semibold text-white">
+            {isLoading ? "Loading..." : ctaText}
+          </span>
+        </ButtonComponent>
       )}
     </header>
   );

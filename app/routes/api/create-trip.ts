@@ -1,8 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import { data, type ActionFunctionArgs } from "react-router";
 import { appwriteConfig, database } from "~/appwrite/client";
 import { parseMarkdownToJson } from "~/lib/utils";
+
+const MAX_TRIPS = 10;
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
@@ -19,6 +21,34 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const unsplashApiKey = process.env.UNSPLASH_ACCESS_KEY!;
 
   try {
+    // Check the current number of trips in the collection
+    const tripsCollection = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.tripCollectionId,
+      [Query.limit(MAX_TRIPS)]
+    );
+
+    // If we already have MAX_TRIPS, delete the oldest one
+    if (tripsCollection.total >= MAX_TRIPS) {
+      // Get the oldest trip by createdAt
+      const oldestTrips = await database.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.tripCollectionId,
+        [Query.orderAsc("createdAt"), Query.limit(1)]
+      );
+
+      if (oldestTrips.documents.length > 0) {
+        // Delete the oldest trip
+        await database.deleteDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.tripCollectionId,
+          oldestTrips.documents[0].$id
+        );
+        console.log(
+          `Deleted oldest trip ${oldestTrips.documents[0].$id} to maintain limit of ${MAX_TRIPS}`
+        );
+      }
+    }
     const prompt = `Generate a ${numberOfDays}-day travel itinerary for ${country} based on the following user information:
     Budget: '${budget}'
     Interests: '${interests}'

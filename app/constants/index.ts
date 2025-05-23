@@ -103,7 +103,7 @@ export const comboBoxItems = {
 } as Record<keyof TripFormData, string[]>;
 
 export const userXAxis: AxisModel = { valueType: "Category", title: "Day" };
-export const useryAxis: AxisModel = {
+export const userYAxis: AxisModel = {
   minimum: 0,
   maximum: 10,
   interval: 2,
@@ -140,14 +140,6 @@ export const RIGHT_CONFETTI = {
   ...CONFETTI_SETTINGS,
   angle: 135,
   origin: { x: 1, y: 1 },
-};
-
-export const dashboardStats = {
-  totalUsers: 4269,
-  usersJoined: { currentMonth: 227, lastMonth: 176 },
-  totalTrips: 3170,
-  tripsCreated: { currentMonth: 170, lastMonth: 210 },
-  userRole: { total: 62, currentMonth: 29, lastMonth: 15 },
 };
 
 export const allTrips = [

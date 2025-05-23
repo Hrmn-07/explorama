@@ -8,7 +8,7 @@ import {
   LayersDirective,
   MapsComponent,
 } from "@syncfusion/ej2-react-maps";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { world_map } from "~/constants/world_map";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import { account } from "~/appwrite/client";
